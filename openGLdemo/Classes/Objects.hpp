@@ -11,31 +11,35 @@
 
 #define GL_SILENCE_DEPRECATION
 #include <GLUT/GLUT.h>
-
+#include <OpenGL/OpenGL.h>
 #include <stdio.h>
 
-class Floor{
-private:
+class Box{
+public:
     double m_length_x;
     double m_length_y;
     double m_length_z;
-    
-public:
-    void CreateFloor();
-};
-
-class Wall{
-private:
-    double m_width;
-    double m_height;
-    double m_depth;
     
     double m_xPosition;
     double m_yPosition;
     double m_zPosition;
     
 public:
-    void Draw();
+    Box(double x, double y, double z);//Boxの定義
+    Box();
+    virtual void Create();//Boxの生成
+    void Location(double x, double y, double z);//Boxの位置
+    
+};
+
+class Floor:public Box{
+public:
+    void Create() override;
+};
+
+class Wall:public Box{
+public:
+    void Create() override;
 };
 
 void Cuboid(double width, double height, double depth);

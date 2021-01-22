@@ -7,8 +7,63 @@
 //
 
 #include "Objects.hpp"
+Box::Box(double x, double y, double z){
+    this->m_length_x = x;
+    this->m_length_y = y;
+    this->m_length_z = z;
+    
+    m_xPosition = 5.0;
+    m_yPosition = 0.0;
+    m_yPosition = 0.0;
+}
 
-void Floor::CreateFloor(){
+Box::Box(){
+    m_length_x = 10.0;
+    m_length_y = 10.0;
+    m_length_z = 10.0;
+    
+    m_xPosition = 5.0;
+    m_yPosition = 0.0;
+    m_yPosition = 0.0;
+}
+
+void Box::Create(){
+    //-------------------------------------------
+    // 直方体の定義
+    //-------------------------------------------
+    GLdouble vertex[][3] = {
+        { 0.0    , 0.0    , 0.0     },
+        { m_length_x, 0.0    , 0.0      },
+        { m_length_x, m_length_y, 0.0      },
+        { 0.0    , m_length_y, 0.0      },
+        { 0.0    , 0.0    , m_length_z },
+        { m_length_x, 0.0    , m_length_z },
+        { m_length_x, m_length_y, m_length_z },
+        { 0.0    , m_length_y, m_length_z }
+    };
+    int face[][4] = {//面の定義
+        { 0, 1, 2, 3 },
+        { 1, 5, 6, 2 },
+        { 5, 4, 7, 6 },
+        { 4, 0, 3, 7 },
+        { 4, 5, 1, 0 },
+        { 3, 2, 6, 7 }
+    };
+    
+    glPushMatrix();
+    glColor3d(1.0, 0.0, 0.0);//色の設定
+    glTranslated(m_xPosition, m_yPosition, m_yPosition);//平行移動値の設定
+    glBegin(GL_QUADS);
+    for (int j = 0; j < 6; ++j) {
+        for (int i = 0; i < 4; ++i) {
+            glVertex3dv(vertex[face[j][i]]);
+        }
+    }
+    glEnd();
+    glPopMatrix();
+}
+
+void Floor::Create(){
     m_length_x = 300;
     m_length_y = 300;
     //m_length_z = 5.0;
@@ -29,28 +84,24 @@ void Floor::CreateFloor(){
     glEnd();
 }
 
-void Wall::Draw(){
-    
-    m_width = 5;
-    m_height = 2.5;
-    m_depth = 70;
+void Wall::Create(){
+    m_length_x = 5;
+    m_length_y = 2.5;
+    m_length_z = 70;
     
     m_xPosition = 20;
     m_yPosition = 0;
     m_zPosition = 0;
     
-    //---------------------------------------------------
-    // 直方体の定義
-    //---------------------------------------------------
     GLdouble vertex[][3] = {
         { 0.0    , 0.0    , 0.0     },
-        { m_width, 0.0    , 0.0      },
-        { m_width, m_depth, 0.0      },
-        { 0.0    , m_depth, 0.0      },
-        { 0.0    , 0.0    , m_height },
-        { m_width, 0.0    , m_height },
-        { m_width, m_depth, m_height },
-        { 0.0    , m_depth, m_height }
+        { m_length_x, 0.0    , 0.0      },
+        { m_length_x, m_length_z, 0.0      },
+        { 0.0    , m_length_z, 0.0      },
+        { 0.0    , 0.0    , m_length_y },
+        { m_length_x, 0.0    , m_length_y },
+        { m_length_x, m_length_z, m_length_y },
+        { 0.0    , m_length_z, m_length_y }
     };
     int face[][4] = {//面の定義
         { 0, 1, 2, 3 },
@@ -63,7 +114,7 @@ void Wall::Draw(){
     
     glPushMatrix();
     glColor3d(1.0, 0.0, 0.0);//色の設定
-    glTranslated(m_xPosition - (m_width/2), m_yPosition, m_zPosition);//平行移動値の設定
+    glTranslated(m_xPosition - (m_length_x/2), m_yPosition, m_zPosition);//平行移動値の設定
     glBegin(GL_QUADS);
     for (int j = 0; j < 6; ++j) {
         for (int i = 0; i < 4; ++i) {
@@ -75,7 +126,7 @@ void Wall::Draw(){
     
     glPushMatrix();
     glColor3d(1.0, 0.0, 0.0);//色の設定
-    glTranslated(-m_xPosition - (m_width/2), m_yPosition, m_zPosition);//平行移動値の設定
+    glTranslated(-m_xPosition - (m_length_x/2), m_yPosition, m_zPosition);//平行移動値の設定
     glBegin(GL_QUADS);
     for (int j = 0; j < 6; ++j) {
         for (int i = 0; i < 4; ++i) {
@@ -85,7 +136,6 @@ void Wall::Draw(){
     glEnd();
     glPopMatrix();
 
-    
 }
 
 void Cuboid(double width, double height, double depth){

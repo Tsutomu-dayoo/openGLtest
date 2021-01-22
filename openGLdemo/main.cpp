@@ -82,10 +82,12 @@ void draw(void) {
     */
     
     Wall wall;
-    wall.Draw();
-    
+    wall.Create();
     Floor floor;
-    floor.CreateFloor();
+    floor.Create();
+    
+    Box box;
+    box.Create();
     //glutSolidTeapot(0.5);
     
     glFlush();
@@ -113,7 +115,6 @@ void display(void){
 
 
 int main(int argc, char * argv[]) {
-    // insert code here...
     glutInit(&argc, argv);
     glutInitWindowSize(600,600);
     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGBA | GLUT_DEPTH);
